@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Square from "./square";
 import createInitialBoard from "../lib/board";
+import type { PieceColor } from "../types/chess";
 
 export default function Chessboard() {
     
@@ -10,10 +11,12 @@ export default function Chessboard() {
     const [selectedPosition, setSelectedPosition] = 
         useState<number | null>(null);
 
+    const [turn, setTurn] = useState<PieceColor>("white");
+
     function handleSquareClick(position: number) {
         
         if(selectedPosition === null){
-            if (board[position] !== null){
+            if (board[position] !== null && board[position].color === turn){
                 setSelectedPosition(position)
                 
             }
@@ -32,10 +35,13 @@ export default function Chessboard() {
             nextBoard[selectedPosition] = null
             setBoard(nextBoard);
             setSelectedPosition(null);
+            setTurn(turn === "white" ? "black" : "white");
             return;
         }
         
-        setSelectedPosition(position)
+        if(board[position].color === turn){
+            setSelectedPosition(position)
+        }
     }
     
     return (
