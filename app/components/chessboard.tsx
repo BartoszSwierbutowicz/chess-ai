@@ -1,17 +1,14 @@
 import Square from "./square";
-import { Piece } from "../types/chess";
+import createInitialBoard from "../lib/board";
 
 export default function Chessboard() {
     
-    const positions = Array.from({ length: 64 }, (_, index) => index);
+    const board = createInitialBoard()
 
     return (
         <div className="grid grid-cols-8 w-fit">
-            {positions.map(position => {
+            {board.map((piece, position) => {
                 
-                const piece: Piece | null = 
-                    position === 48 ? {color: "white", type: "pawn"} : null
-
                 const row = Math.floor(position / 8);
                 const column = position % 8;
                 
